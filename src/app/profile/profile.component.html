@@ -1,0 +1,8 @@
+<div class="container">
+    <div class="card" *ngIf="userProfile">
+        <h4>Hi {{userProfile.name}} !</h4>
+        <p class="text-muted">{{userProfile.email}}</p>
+        <span>{{userProfile.bio}}</span>
+        <button class="mt-5" mat-raised-button (click)="logout()" color="warn">Logout</button>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AppService } from '../app.service';
 
 @Component({
@@ -12,11 +13,13 @@ export class RegistrationComponent implements OnInit {
   registerForm: FormGroup;
 
   constructor(
-    private authService: AppService
+    private authService: AppService,
+    private router: Router
   ) { }
 
 
   ngOnInit(): void {
+    localStorage.setItem('loggedIn', JSON.stringify(false));
     this.registerForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(12)]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -30,6 +33,8 @@ export class RegistrationComponent implements OnInit {
     this.authService.register(this.registerForm.value).subscribe((res: any) => {
       console.log(res);
       if(res.success){
+        localStorage.setItem('loggedIn', JSON.stringify(true));
+        this.router.navigate(['/profile']);
         this.registerForm.reset()
       }
     })
